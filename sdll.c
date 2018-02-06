@@ -221,7 +221,7 @@ sdll *insert_at_index(sdll *list, size_t index, char *new_val)
  */
 sdll *remove_first(sdll *list, char *sought_val)
 {
-	node *tempNode = malloc(sizeof(node));
+	node *tempNode = (node*)malloc(sizeof(node));
 	tempNode=list->first;
 	while (tempNode != NULL){
                 if (strcmp(tempNode->value,sought_val)==0){
@@ -240,8 +240,8 @@ sdll *remove_first(sdll *list, char *sought_val)
 				tempPrev->next = tempNext;
 				tempNext->prev = tempPrev;
 			}
-			//free(tempNode->value);
-			//free(tempNode);
+			free(tempNode->value);
+			free(tempNode);
 			return list;
 		}
 		tempNode = tempNode->next;
