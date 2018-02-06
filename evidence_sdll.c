@@ -333,5 +333,8 @@ int main()
 	fprintf(stdout, "Expecting [Hi]\n");
         evidence_remove_all(testlist3,"Bye");
 	/*------------------------------------*/
+	list_free(testlist1);
+	list_free(testlist2);
+	list_free(testlist3);
 	return 0;
 }

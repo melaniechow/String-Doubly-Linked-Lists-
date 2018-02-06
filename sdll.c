@@ -29,7 +29,6 @@ void list_free(sdll *list)
 	while (tempNode != NULL){
 		node *kill = tempNode;
 		tempNode=tempNode->next;
-		free(kill->value);
 		free(kill);
 	}
 	free(tempNode);
@@ -222,8 +221,7 @@ sdll *insert_at_index(sdll *list, size_t index, char *new_val)
 sdll *remove_first(sdll *list, char *sought_val)
 {
 	node *tempNode = malloc(sizeof(node));
-	char *val = malloc(sizeof(node->value));
-	tempNode=list->first
+	tempNode=list->first;
 	while (tempNode != NULL){
                 if (strcmp(tempNode->value,sought_val)==0){
 			node *tempPrev = tempNode->prev;
@@ -241,8 +239,6 @@ sdll *remove_first(sdll *list, char *sought_val)
 				tempPrev->next = tempNext;
 				tempNext->prev = tempPrev;
 			}
-			val=tempNode->value;
-			free(val);
 			free(tempNode);
 			return list;
 		}
