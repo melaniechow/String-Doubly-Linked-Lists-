@@ -3,52 +3,64 @@
    HW#4 - String Doubly-linked list
 */
 
+#include "sdll.h"
+#include <stdlib.h>
+#include <stdio.h>
+#include <stddef.h>
+#include "string.h"
+
 /* Create a new empty list. It is a container struct with two NULL pointers. */
 sdll *list_new()
 {
-	sdll *retlist = malloc(size_of(sdll));
-	node *list_first=malloc(size_of(node));
-	node *list_last=malloc(size_of(node));
-	list_first=null;
-	list_last=null;
+	sdll *retlist = malloc(sizeof(sdll));
+	node *list_first=malloc(sizeof(node));
+	node *list_last=malloc(sizeof(node));
+	list_first=NULL;
+	list_last=NULL;
 	retlist->first = list_first;
 	retlist->last = list_last;
+	return retlist;
 }
 
 /* Free the whole list, including all strings and the container. */
-/*
 void list_free(sdll *list)
 {
 	node *tempNode = list->first;
-	while (
+	while (tempNode != NULL){
+		node *kill = tempNode;
+		tempNode=tempNode->next;
+		free(kill->value);
+		free(kill);
+	}
+	free(tempNode);
+	free(list);
 }
-*/
 
 /* Display a reasonable textual version of the node to f. */
 void node_show(FILE *f, node *nd)
 {
 	if (nd == NULL){
-		fprintf(f, "[  ]");
+		fprintf(f, "[ ]");
 	}
 	else {
-		fprintf(f, "[ %s ]", nd->value);
+		fprintf(f, "[%s]", nd->value);
 	}
 }
 
 /* Display a reasonable textual version of the list to f, with sep between nodes. */
 void list_show(FILE *f, sdll *list, char sep)
 {
-	if (list->first == NULL){
-		fprintf(f, "[  ]");
+	if (list == NULL){
+		fprintf(f, "[ ]");
 	}
 	else {
 		node *tempNode = list->first;
 		while (tempNode != NULL){
-			fprintf(f, tempNode);
-			if (fprintf->next != NULL){
-				fprintf(f, "|");
+			node_show(f,tempNode);
+			if (tempNode->next != NULL){
+				putchar(sep);
 			}
-			fprintf=fprintf->next;
+			tempNode=tempNode->next;
 		}
 	}
 }
@@ -101,7 +113,7 @@ node *get_at_index(sdll *list, size_t index)
 {
 	node *tempNode = list->first;
 	for (int i = 0; i<index ; i++){
-		if (tempNode = NULL){
+		if (tempNode == NULL){
 			return NULL;
 		}
 		tempNode=tempNode->next;
@@ -115,7 +127,7 @@ node *get_at_index(sdll *list, size_t index)
  */
 sdll *insert_after(sdll *list, char *sought_val, char *new_val)
 {
-	node *to_be_inserted=malloc(size_of(node));
+	node *to_be_inserted=malloc(sizeof(node));
 	to_be_inserted->value = new_val;
 	node *tempNode=list->first;
 	while (tempNode != NULL){
@@ -148,7 +160,7 @@ sdll *insert_after(sdll *list, char *sought_val, char *new_val)
  */
 sdll *insert_before(sdll *list, char *sought_val, char *new_val)
 {
-	node *to_be_inserted=malloc(size_of(node));
+	node *to_be_inserted=malloc(sizeof(node));
         to_be_inserted->value = new_val;
         node *tempNode=list->first;
         while (tempNode != NULL){
@@ -184,7 +196,7 @@ sdll *insert_at_index(sdll *list, size_t index, char *new_val)
 		return NULL;
 	}
 
-	node *to_be_inserted=malloc(size_of(node));
+	node *to_be_inserted=malloc(sizeof(node));
         to_be_inserted->value = new_val;
 	//inserting at front
 	if (tempNode->prev == NULL){
@@ -209,7 +221,8 @@ sdll *insert_at_index(sdll *list, size_t index, char *new_val)
  */
 sdll *remove_first(sdll *list, char *sought_val)
 {
-	node *tempNode = list->first;
+	node *tempNode = malloc(sizeof(node));
+	tempNode=list->first;
 	while (tempNode != NULL){
                 if (strcmp(tempNode->value,sought_val)==0){
 			node *tempPrev = tempNode->prev;
@@ -227,8 +240,8 @@ sdll *remove_first(sdll *list, char *sought_val)
 				tempPrev->next = tempNext;
 				tempNext->prev = tempPrev;
 			}
-			free(tempNode->value);
-			free(tempNode);
+			//free(tempNode->value);
+			//free(tempNode);
 			return list;
 		}
 		tempNode = tempNode->next;
@@ -242,13 +255,13 @@ sdll *remove_first(sdll *list, char *sought_val)
  */
 sdll *remove_all(sdll *list, char *sought_val)
 {
-	sdll list_copy = list;
-	if (remove_first(list_copy,sought_val) == NULL){
+	if (remove_first(list,sought_val) == NULL){
 		return NULL;
 	}
 	//recusively calling remove_first, updating the list everytime
-	while (remove_first(list_copy, soughtval) != NULL){
-		list_copy=remove_first(list_copy, sought_val);
+	while (remove_first(list, sought_val) != NULL){
+		remove_first(list, sought_val);
 	}
+	return list;
 }
 
