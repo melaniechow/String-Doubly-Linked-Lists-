@@ -100,6 +100,9 @@ node *get_last(sdll *list)
  */
 node *get_next(sdll *list, node *nd)
 {
+	if (nd == NULL){
+		return NULL;
+	}
 	return nd->next;
 }
 
@@ -108,6 +111,9 @@ node *get_next(sdll *list, node *nd)
  */
 node *get_previous(sdll *list, node *nd)
 {
+	if (nd == NULL){
+		return NULL;
+	}
 	return nd->prev;
 }
 

@@ -231,6 +231,9 @@ int main()
 	fprintf(stdout, "Expecting [Cc]");
         evidence_get_next(testlist1, list1node2);
 
+	fprintf(stdout, "Expecting [ ](Null)\n");
+        evidence_get_next(testlist2,NULL);
+
         fprintf(stdout, "Expecting [Bye]\n");
         evidence_get_next(testlist3,list3node1);
 
@@ -244,6 +247,9 @@ int main()
 
         fprintf(stdout, "Expecting [Aa]");
         evidence_get_previous(testlist1, list1node2);
+
+	fprintf(stdout, "Expecting [ ](Null)\n");
+        evidence_get_previous(testlist2,NULL);
 
         fprintf(stdout, "Expecting [ ](Null)\n");
         evidence_get_previous(testlist3,list3node1);
